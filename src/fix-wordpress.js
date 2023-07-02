@@ -2,6 +2,9 @@ import mariadb from 'mariadb'
 import mysql from 'mysql2/promise'
 import dayjs from 'dayjs'
 import fs from 'fs'
+import { MYSQL_CONFIG } from './mysql-config.js'
+import { fieldNames, fixSmartLinks } from './sql-tools.js'
+
 let q = 'SELECT * FROM `wp_posts`'
 
 function noNewLines(str) {
@@ -15,6 +18,8 @@ function toDate(day) {
 
 async function processPosts(conn) {
   const [rows, fields] = await conn.query('SELECT * FROM `wp_posts`')
+  console.log(rows[10])
+  fixSmartLinks(rows[10].post_content)
 }
 
 // `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`)
@@ -48,21 +53,10 @@ async function main() {
   let conn
 
   console.log('\n-- main()')
-  await mysql
-    .createConnection({
-      host: '127.0.0.1',
-      port: '8888',
-      user: 'root',
-      database: 'third',
-      password: 'root',
-      socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock',
-      debug: false,
-      trace: false,
-    })
-    .then((res) => {
-      conn = res
-      console.log('got it', conn.config)
-    })
+  await mysql.createConnection(MYSQL_CONFIG).then((res) => {
+    conn = res
+    console.log('got it', conn.config)
+  })
 
   console.log('\n-- connect() ' + (conn ? 'true' : 'false'))
   conn.connect((err) => {

@@ -49,23 +49,23 @@ export function parseSQLJSON(file) {
   })
 }
 
-const linkPat = /[^\[]*\[(.*?)\][^\[]*/g
-function fixSmartLinks(text) {
-  let links = text.matchAll(linkPat)
+const linkPat = /[^\[].*?[^\[]*/g
+export function fixSmartLinks(text) {
+  let links = text.match(linkPat)
   let linksNew = []
-  if (links) debug(JSON.stringify(links))
+  if (links) debug(links.length, links.join('\n--\n'))
 
   if (links)
     for (const lnk of links) {
       let href, txt
       let pos = lnk.indexOf('->')
       if (pos > -1) {
-        txt = lnk.substring(1, pos)
-        href = lnk.substring(pos + 2, lnk.length - 1)
+        txt = lnk.substring(0, pos)
+        href = lnk.substring(pos + 2, lnk.indexOf(']'))
         linksNew.push(`<a href="${href}">${txt}</a>`)
       }
     }
-  //   debug(JSON.stringify(links))
+  debug('\n^^^^^^\n', linksNew.join('\n--\n'))
 }
 
 export function debug(...arg) {
