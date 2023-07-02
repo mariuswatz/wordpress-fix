@@ -1,0 +1,9 @@
+node_modules
+
+/.cache
+/public/build
+/.netlify
+.env
+.DS_store
+data
+output

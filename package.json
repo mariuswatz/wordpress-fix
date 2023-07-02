@@ -1,0 +1,17 @@
+{
+  "name": "generatorx-fix",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@mysql/xdevapi": "^8.0.33",
+    "cardinal": "^2.1.1",
+    "dayjs": "^1.11.9",
+    "eslint-config-prettier": "^8.5.0",
+    "mariadb": "^3.2.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.4.2",
+    "prettier": "^2.6.2",
+    "sequelize": "^6.32.1"
+  }
+}
